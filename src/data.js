@@ -37,7 +37,7 @@ export const socials = [
   },
 ]
 
-export const role = 'AI/ML Enthusiast'
+export const role = 'Prospective MS/PhD Student · Machine Learning for Healthcare'
 
 export const researchInterests = [
   'Machine Learning for Healthcare',
@@ -55,6 +55,8 @@ export const education = [
     period: '2022–2026',
     score: '3.62',
     scoreLabel: 'CGPA out of 4.00',
+    coursework:
+      'Machine Learning, Artificial Intelligence, Data Structures & Algorithms, Linear Algebra, Probability & Statistics, Calculus, Database Systems, Operating Systems',
   },
 ]
 
@@ -71,20 +73,6 @@ export const earlierEducation = [
     period: '2018',
     title: 'Secondary School Certificate (SSC)',
     school: 'Gobindapur Govt. High School',
-    score: 'GPA 5.00 / 5.00',
-    note: 'Govt. Board Scholarship',
-  },
-  {
-    period: '2015',
-    title: 'Junior School Certificate (JSC)',
-    school: 'Gobindapur Govt. High School',
-    score: 'GPA 5.00 / 5.00',
-    note: 'Govt. Board Scholarship',
-  },
-  {
-    period: '2012',
-    title: 'Primary School Certificate (PSC)',
-    school: 'Dharmagar Ideal School',
     score: 'GPA 5.00 / 5.00',
     note: 'Govt. Board Scholarship',
   },
@@ -106,27 +94,6 @@ export const skills = [
     ],
   },
   {
-    title: 'Foundations',
-    groups: [
-      {
-        label: 'Computer science',
-        items: [
-          'Data Structures & Algorithms',
-          'OOP',
-          'DBMS',
-          'Operating Systems',
-          'Software Engineering',
-          'Computer Networks',
-          'Theory of Computation',
-        ],
-      },
-      {
-        label: 'Mathematics',
-        items: ['Linear Algebra', 'Calculus', 'Probability', 'Statistics'],
-      },
-    ],
-  },
-  {
     title: 'Programming & Development',
     groups: [
       { label: 'Languages', items: ['Python', 'C', 'C++', 'Java', 'Dart'] },
@@ -143,11 +110,12 @@ export const skills = [
   {
     title: 'Currently Learning',
     learning: true,
+    wide: true,
     groups: [
-      { label: 'Frameworks', items: ['TensorFlow', 'PyTorch'] },
-      { label: 'Deep learning', items: ['LSTM', 'GNNs'] },
-      { label: 'Computer vision', items: ['ViT', 'YOLOv5/v6', 'Mask R-CNN'] },
-      { label: 'Language & multimodal', items: ['Transformers', 'LLaMA', 'VLMs'] },
+      { label: 'Frameworks', items: ['PyTorch', 'TensorFlow'] },
+      { label: 'Deep learning', items: ['CNNs (VGG, MobileNet)', 'LSTM/GRU', 'GNNs'] },
+      { label: 'Computer vision', items: ['Vision Transformers', 'YOLO'] },
+      { label: 'Language & multimodal', items: ['Transformers (BERT, LLaMA)', 'VLMs'] },
     ],
   },
 ]
@@ -157,29 +125,32 @@ export const research = {
   title: 'Engineered CatBoost for Imbalanced Chronic Kidney Disease Screening',
   href: 'https://github.com/adnanshad35/ckd-catboost-screening',
   tags: ['Python', 'CatBoost', 'scikit-learn', 'XGBoost', 'SHAP'],
+  supervisor: 'Md. Jamaner Rahaman',
+  period: '2025–2026',
   points: [
     {
-      label: 'Research problem',
-      text: 'Developed a machine-learning screening pipeline for chronic kidney disease using 1,659 imbalanced patient records, addressing the challenge of reliable detection under class imbalance.',
+      label: 'Data',
+      text: 'Built a screening pipeline on 1,659 records with 38 features, where 92% of cases are CKD and only 8% are non-CKD.',
     },
     {
       label: 'Approach',
-      text: 'Led a two-student thesis under faculty supervision; engineered and evaluated a CatBoost model and benchmarked it against Logistic Regression, Random Forest, XGBoost, and SVM.',
+      text: 'Led a two-student team and handled the modeling, implementation, and analysis. Compared CatBoost with logistic regression, random forest, XGBoost, and SVM, using class weights and a stratified split.',
     },
     {
-      label: 'Evaluation & results',
-      text: 'Applied threshold optimization and SHAP-based interpretation, evaluated on the held-out test set. The threshold favours catching cases over avoiding false alarms, which is why sensitivity is high and balanced accuracy is lower.',
+      label: 'Evaluation',
+      text: 'Chose the decision threshold on validation data to keep sensitivity at 0.92 or above, favouring caught cases over false alarms. Results above are on the held-out test set.',
     },
     {
-      label: 'Research output',
-      text: 'Manuscript in preparation for conference submission.',
+      label: 'Interpretability',
+      text: 'Used SHAP to check that the model relies on known kidney markers (creatinine, GFR, urine protein).',
     },
+    { label: 'Status', text: 'Manuscript under revision.' },
   ],
   metrics: [
-    { value: '0.9605', label: 'Sensitivity' },
-    { value: '0.9767', label: 'PR-AUC' },
-    { value: '0.8210', label: 'ROC-AUC' },
-    { value: '0.7660', label: 'Balanced accuracy' },
+    { value: '0.96', label: 'Sensitivity' },
+    { value: '0.57', label: 'Specificity' },
+    { value: '0.77', label: 'Balanced accuracy' },
+    { value: '0.82', label: 'ROC-AUC' },
   ],
 }
 
@@ -188,35 +159,30 @@ export const projects = [
     title: 'ClubMate',
     href: 'https://github.com/redwan-edu/ClubMate',
     tags: ['Android', 'Firebase', 'Cloudinary'],
-    problem:
-      'University clubs often manage messaging, announcements, membership, and private communication across disconnected channels.',
-    solution:
-      'Team-developed an end-to-end encrypted Android application that centralizes messaging, announcements, member management, role-based groups, notice boards, private channels, and encrypted media sharing. Contributed to research and development and performed application testing.',
+    points: [
+      'Android app that gives university clubs one place to communicate instead of scattered group chats.',
+      'Supports messaging, announcements, member management, role-based groups, notice boards, private channels, and media sharing, all end-to-end encrypted.',
+      'Built as a team; I contributed to research and development and tested the app.',
+    ],
   },
   {
     title: 'HostelMate',
     href: 'https://github.com/adnanshad35/hostel-meal-calculator',
     tags: ['Flutter', 'Dart', 'Firebase'],
-    problem:
-      'Manual management of hostel meals, shared expenses, shop dues, and monthly balances often causes calculation errors and disputes.',
-    solution:
-      'Independently developed a role-based Android application with Firebase, administrator controls, secure data access, and automated monthly calculations.',
-  },
-  {
-    title: 'CGPA Calculator',
-    href: 'https://github.com/adnanshad35/University-CGPA-Calculator',
-    tags: ['Flutter', 'Dart', 'Mobile Development'],
-    problem:
-      'Manual semester and cumulative GPA calculation can be time-consuming and error-prone for students.',
-    solution:
-      'Independently developed a mobile application that accepts course credits and grades to calculate semester GPA and cumulative CGPA for academic planning.',
+    points: [
+      'Android app for hostel residents to track meals, shared expenses, shop dues, and monthly balances, which were calculated by hand and often caused errors and disputes.',
+      'Calculates monthly balances automatically; role-based access lets only administrators change records.',
+      'Built on my own, with Firebase for secure data storage.',
+    ],
   },
   {
     title: 'RobGlass',
     tags: ['Arduino', 'Ultrasonic Sensors', 'Buzzer'],
-    problem: 'Visually impaired users need low-cost assistance for detecting nearby obstacles.',
-    solution:
-      'Co-developed Arduino-based assistive glasses with configurable ultrasonic detection and buzzer alerts; contributed to R&D, programming, and circuit design.',
+    points: [
+      'Low-cost assistive glasses that help visually impaired users detect nearby obstacles.',
+      'Ultrasonic sensors detect obstacles and a buzzer alerts the wearer; the detection settings can be adjusted.',
+      'Built with a team; I worked on research and development, programming, and circuit design.',
+    ],
   },
 ]
 
@@ -229,7 +195,7 @@ export const leadership = [
   },
   {
     role: 'Publications and Newsletter Coordinator',
-    org: 'IEEE Computer Society, Leading University',
+    org: 'IEEE Computer Society, LU Student Branch',
     period: '2024–2025',
     text: 'Coordinated publication, newsletter, and event-documentation activities.',
   },
@@ -239,7 +205,8 @@ export const outreach = {
   role: 'STEM Content Creator',
   org: '180 Seconds with Adnan',
   href: 'https://web.facebook.com/180secondwithadnan',
-  text: 'Created and presented short educational videos.',
+  period: '2022–Present',
+  text: 'Created and presented short educational science videos for a general audience.',
   // Facebook video shown beside the text; it starts playing once scrolled into view.
   video: 'https://www.facebook.com/180secondwithadnan/videos/1682429852265551/',
 }
@@ -277,11 +244,11 @@ export const moreTeaching = [
 export const competitive = [
   {
     value: '250+',
-    text: 'algorithmic problems solved on Codeforces and CodeChef across data structures, DP, and graph algorithms.',
+    text: 'problems solved on Codeforces and CodeChef, mostly data structures, DP, and graphs.',
   },
   {
     value: '50+',
-    text: 'online and university-level onsite programming contests, including ICPC and individual rated rounds.',
+    text: 'online and onsite contests, including the intra-university ICPC selection contest.',
   },
 ]
 
@@ -296,7 +263,7 @@ export const honors = [
     org: 'Institute of Electrical and Electronics Engineers (IEEE)',
     period: '2024–Present',
   },
-  { title: 'Member', org: 'Leading University ACM Community', period: '2024–2025' },
+  { title: 'Member', org: 'Leading University ACM Community', period: '2023–2025' },
 ]
 
 export const ielts = {

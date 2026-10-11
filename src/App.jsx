@@ -272,7 +272,7 @@ export default function App() {
               </a>
             ))}
             <a className="btn btn--primary nav__cv" href="#contact" onClick={() => setMenuOpen(false)}>
-              Contact Me
+              Contact
             </a>
           </nav>
           <button
@@ -309,11 +309,9 @@ export default function App() {
               </p>
               <p className="hero__lead">
                 I am a Computer Science and Engineering graduate from Leading University,
-                Bangladesh, interested in machine learning for healthcare. For my undergraduate
-                thesis, I built a chronic kidney disease screening model on highly imbalanced data,
-                set its decision threshold to keep missed cases low, and used SHAP to check what it
-                learned. My broader interests include trustworthy AI and data science, and I also
-                build Android and Flutter apps. I am looking for a funded MS or PhD position
+                Bangladesh, interested in machine learning for healthcare and trustworthy AI. My
+                undergraduate thesis built a chronic kidney disease screening model on highly
+                imbalanced data, explained with SHAP. I am looking for a funded MS or PhD position
                 starting in Fall 2027.
               </p>
               <div className="hero__more">
@@ -344,6 +342,11 @@ export default function App() {
                     <time>{item.period}</time>
                     <h3>{item.degree}</h3>
                     <p>{item.school}</p>
+                    {item.coursework && (
+                      <p className="education__courses">
+                        Relevant coursework: {item.coursework}
+                      </p>
+                    )}
                   </div>
                   <p className="education__score">
                     <strong>{item.score}</strong>
@@ -393,6 +396,9 @@ export default function App() {
                   {research.title} <Icon path={icons.external} size={16} />
                 </a>
               </h3>
+              <p className="research__meta">
+                Supervised by {research.supervisor} · {research.period}
+              </p>
               <Tags items={research.tags} />
               <ul className="metrics">
                 {research.metrics.map((metric) => (
@@ -478,12 +484,11 @@ export default function App() {
                     )}
                   </div>
                   <Tags items={project.tags} />
-                  <p>
-                    <b>Problem:</b> {project.problem}
-                  </p>
-                  <p>
-                    <b>Solution:</b> {project.solution}
-                  </p>
+                  <ul className="project__points">
+                    {project.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
                 </article>
               ))}
             </div>
@@ -493,27 +498,6 @@ export default function App() {
         <section id="teaching" className="section">
           <div className="container">
             <SectionHead title="Teaching & Leadership" />
-            <article className="card outreach reveal">
-              <div>
-                <span className="eyebrow">Outreach</span>
-                <h3>{outreach.role}</h3>
-                <p className="timeline__org">
-                  <a href={outreach.href} target="_blank" rel="noreferrer">
-                    {outreach.org}
-                  </a>
-                </p>
-                <p className="outreach__text">{outreach.text}</p>
-                <a
-                  className="btn btn--primary"
-                  href={outreach.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Visit the page <Icon path={icons.external} size={16} />
-                </a>
-              </div>
-              <FacebookVideo href={outreach.video} title={`${outreach.org} video`} />
-            </article>
             <div className="grid grid--experience">
               <article className="card reveal">
                 <h3>Teaching</h3>
@@ -601,14 +585,35 @@ export default function App() {
                 </ul>
               </article>
             </div>
+            <article className="card outreach reveal">
+              <div>
+                <span className="eyebrow">Outreach · {outreach.period}</span>
+                <h3>{outreach.role}</h3>
+                <p className="timeline__org">
+                  <a href={outreach.href} target="_blank" rel="noreferrer">
+                    {outreach.org}
+                  </a>
+                </p>
+                <p className="outreach__text">{outreach.text}</p>
+                <a
+                  className="btn btn--primary"
+                  href={outreach.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Visit the page <Icon path={icons.external} size={16} />
+                </a>
+              </div>
+              <FacebookVideo href={outreach.video} title={`${outreach.org} video`} />
+            </article>
           </div>
         </section>
 
         <section id="contact" className="section section--alt">
           <div className="container">
             <SectionHead
-              title="Let's Work Together"
-              text="Open to research collaborations, graduate opportunities, and software roles."
+              title="Get in Touch"
+              text="I am looking for funded MS or PhD positions starting Fall 2027 and am always happy to talk about research."
             />
             <div className="contact">
               <form className="card form reveal" onSubmit={submit}>
