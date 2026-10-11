@@ -1,7 +1,5 @@
 export const contact = {
   email: 'adnanshad.contact@gmail.com',
-  phone: '+880-1725-896363',
-  phoneHref: 'tel:+8801725896363',
   location: 'Madhabpur, Habiganj, Bangladesh',
   resume: '/Abu_Adnan_Shad_CV.pdf',
 }
@@ -12,8 +10,7 @@ export const navLinks = [
   { id: 'research', label: 'Research' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'teaching', label: 'Teaching & Leadership' },
 ]
 
 // Brand marks on a 24x24 grid (single paths from Simple Icons).
@@ -33,31 +30,22 @@ export const socials = [
     href: 'https://codeforces.com/profile/adnan_35',
     icon: 'M4.5 7.5C5.328 7.5 6 8.172 6 9v10.5c0 .828-.672 1.5-1.5 1.5h-3C.673 21 0 20.328 0 19.5V9c0-.828.673-1.5 1.5-1.5h3zm9-4.5c.828 0 1.5.672 1.5 1.5v15c0 .828-.672 1.5-1.5 1.5h-3c-.827 0-1.5-.672-1.5-1.5v-15c0-.828.673-1.5 1.5-1.5h3zm9 7.5c.828 0 1.5.672 1.5 1.5v7.5c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5V12c0-.828.672-1.5 1.5-1.5h3z',
   },
+  {
+    label: 'Email',
+    copy: contact.email,
+    icon: 'M4 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H4zm.4 2h15.2L12 12.7 4.4 7zM4 9.2l7.4 5.6a1 1 0 0 0 1.2 0L20 9.2V17H4V9.2z',
+  },
 ]
 
-export const roles = ['AI/ML Researcher', 'Software Developer', 'Competitive Programmer']
-
-export const stats = [
-  { value: '250+', label: 'Problems solved' },
-  { value: '50+', label: 'Programming contests' },
-  { value: '4', label: 'Technical projects' },
-  { value: '3.62', label: 'CGPA out of 4.00' },
-]
+export const roles = ['AI/ML Researcher', 'Software Developer']
 
 export const researchInterests = [
+  'Machine Learning for Healthcare',
+  'Trustworthy AI',
+  'Imbalanced Learning',
+  'Explainable AI',
   'Deep Learning',
   'Computer Vision',
-  'Large Language Models',
-  'Vision-Language Models',
-  'Graph Neural Networks',
-  'Agentic AI',
-]
-
-export const aboutFacts = [
-  { label: 'Degree', value: 'B.Sc. in Computer Science and Engineering' },
-  { label: 'University', value: 'Leading University, Sylhet (2022–2026)' },
-  { label: 'CGPA', value: '3.62 / 4.00' },
-  { label: 'Location', value: 'Madhabpur, Habiganj, Bangladesh' },
 ]
 
 export const education = [
@@ -70,71 +58,96 @@ export const education = [
   },
 ]
 
+// Shown behind the "Earlier education" dropdown in Academic Background.
+export const earlierEducation = [
+  {
+    period: '2018–2020',
+    title: 'Higher Secondary Certificate (HSC)',
+    school: 'Murarichand College, Sylhet',
+    score: 'GPA 5.00 / 5.00',
+    note: 'Govt. Board Scholarship',
+  },
+  {
+    period: '2018',
+    title: 'Secondary School Certificate (SSC)',
+    school: 'Gobindapur Govt. High School',
+    score: 'GPA 5.00 / 5.00',
+    note: 'Govt. Board Scholarship',
+  },
+  {
+    period: '2015',
+    title: 'Junior School Certificate (JSC)',
+    school: 'Gobindapur Govt. High School',
+    score: 'GPA 5.00 / 5.00',
+    note: 'Govt. Board Scholarship',
+  },
+  {
+    period: '2012',
+    title: 'Primary School Certificate (PSC)',
+    school: 'Dharmagar Ideal School',
+    score: 'GPA 5.00 / 5.00',
+    note: 'Govt. Board Scholarship',
+  },
+]
+
+// Each card in the Skills section: a broad area split into labelled groups.
 export const skills = [
-  { title: 'Programming Languages', items: ['Python', 'C', 'C++', 'Java', 'Dart'] },
   {
     title: 'Machine Learning',
-    items: ['Logistic Regression', 'Random Forest', 'SVM', 'XGBoost', 'CatBoost'],
-  },
-  {
-    title: 'ML / Data Libraries',
-    items: ['scikit-learn', 'pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'SHAP'],
-  },
-  {
-    title: 'Research Methods',
-    items: [
-      'Imbalanced classification',
-      'Model benchmarking',
-      'Threshold optimization',
-      'Explainability with SHAP',
+    groups: [
+      {
+        label: 'Models',
+        items: ['Logistic Regression', 'Random Forest', 'SVM', 'XGBoost', 'CatBoost'],
+      },
+      {
+        label: 'Libraries',
+        items: ['scikit-learn', 'pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'SHAP'],
+      },
     ],
   },
   {
-    title: 'Application Development',
-    items: ['HTML', 'CSS', 'Flutter (Dart)', 'Android (Java)', 'Firebase'],
-  },
-  {
-    title: 'Tools & Platforms',
-    items: ['Git', 'GitHub', 'Google Colab', 'VS Code', 'Android Studio'],
-  },
-  {
-    title: 'CS Foundations',
-    items: [
-      'Data Structures & Algorithms',
-      'OOP',
-      'DBMS',
-      'OS',
-      'Software Engineering',
-      'Computer Networks',
-      'Theory of Computation',
+    title: 'Foundations',
+    groups: [
+      {
+        label: 'Computer science',
+        items: [
+          'Data Structures & Algorithms',
+          'OOP',
+          'DBMS',
+          'Operating Systems',
+          'Software Engineering',
+          'Computer Networks',
+          'Theory of Computation',
+        ],
+      },
+      {
+        label: 'Mathematics',
+        items: ['Linear Algebra', 'Calculus', 'Probability', 'Statistics'],
+      },
     ],
   },
   {
-    title: 'Mathematical Foundations',
-    items: ['Linear Algebra', 'Calculus', 'Probability', 'Statistics'],
+    title: 'Programming & Development',
+    groups: [
+      { label: 'Languages', items: ['Python', 'C', 'C++', 'Java', 'Dart'] },
+      {
+        label: 'App development',
+        items: ['Flutter (Dart)', 'Android (Java)', 'Firebase', 'HTML', 'CSS'],
+      },
+      {
+        label: 'Tools & platforms',
+        items: ['Git', 'GitHub', 'Google Colab', 'VS Code', 'Android Studio'],
+      },
+    ],
   },
   {
     title: 'Currently Learning',
-    wide: true,
-    items: [
-      'TensorFlow',
-      'PyTorch',
-      'DNNs',
-      'LSTM',
-      'GRU',
-      'VGG16/19',
-      'Inception',
-      'MobileNet',
-      'ViT',
-      'YOLOv5/v6',
-      'R-CNN',
-      'Mask R-CNN',
-      'Transformers',
-      'BERT',
-      'LLaMA',
-      'VLMs',
-      'GNNs',
-      'Agentic AI',
+    learning: true,
+    groups: [
+      { label: 'Frameworks', items: ['TensorFlow', 'PyTorch'] },
+      { label: 'Deep learning', items: ['LSTM', 'GNNs'] },
+      { label: 'Computer vision', items: ['ViT', 'YOLOv5/v6', 'Mask R-CNN'] },
+      { label: 'Language & multimodal', items: ['Transformers', 'LLaMA', 'VLMs'] },
     ],
   },
 ]
@@ -155,7 +168,7 @@ export const research = {
     },
     {
       label: 'Evaluation & results',
-      text: 'Applied threshold optimization and SHAP-based interpretation, evaluated on the held-out test set.',
+      text: 'Applied threshold optimization and SHAP-based interpretation, evaluated on the held-out test set. The threshold favours catching cases over avoiding false alarms, which is why sensitivity is high and balanced accuracy is lower.',
     },
     {
       label: 'Research output',
@@ -209,10 +222,10 @@ export const projects = [
 
 export const leadership = [
   {
-    role: 'Student Assistant',
-    org: 'Machine Learning Laboratory',
-    period: 'Fall 2025',
-    text: 'Selected by the course instructor to support junior students with laboratory exercises and machine-learning concepts.',
+    role: 'Founding Member and Program Manager',
+    org: 'Igniting Smiles Foundation',
+    period: '2022–Present',
+    text: 'Coordinates aid initiatives for low-income communities and disaster relief in Bangladesh.',
   },
   {
     role: 'Publications and Newsletter Coordinator',
@@ -220,17 +233,44 @@ export const leadership = [
     period: '2024–2025',
     text: 'Coordinated publication, newsletter, and event-documentation activities.',
   },
+]
+
+export const outreach = {
+  role: 'STEM Content Creator',
+  org: '180 Seconds with Adnan',
+  href: 'https://web.facebook.com/180secondwithadnan',
+  text: 'Created and presented short educational videos.',
+  // Facebook video shown beside the text; it starts playing once scrolled into view.
+  video: 'https://www.facebook.com/180secondwithadnan/videos/1682429852265551/',
+}
+
+export const teaching = [
   {
-    role: 'Founding Member and Program Manager',
-    org: 'Igniting Smiles Foundation',
-    period: '2022–Present',
-    text: 'Coordinates aid initiatives for low-income communities and disaster relief in Bangladesh.',
+    role: 'Student Assistant',
+    org: 'Machine Learning Laboratory',
+    period: 'Fall 2025',
+    text: 'Selected by the course instructor to support junior students with laboratory exercises and machine-learning concepts.',
+  },
+]
+
+// Shown behind the "More teaching" dropdown in the Teaching card.
+export const moreTeaching = [
+  {
+    role: 'Home Tutor',
+    period: '2020–Present',
+    text: 'Tutoring Class 6–12 students in Mathematics, Physics, Chemistry, Biology, and ICT.',
   },
   {
-    role: 'STEM Content Creator',
-    org: '180 Seconds with Adnan',
-    href: 'https://web.facebook.com/180secondwithadnan',
-    text: 'Created and presented short educational videos.',
+    role: 'Part-time Teacher',
+    org: 'Pi Academy (Tutorial Center)',
+    period: '2023–2025',
+    text: 'Taught ICT and Physics to HSC-level students in classroom settings.',
+  },
+  {
+    role: 'Occasional Teacher',
+    org: 'Error Solution (Tutorial Center)',
+    period: '2024',
+    text: 'Provided teaching in Mathematics and Physics to SSC-level students.',
   },
 ]
 

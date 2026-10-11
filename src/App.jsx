@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import heroPhoto from './assets/frontpage.jpg'
-import researchPhoto from './assets/graduation.jpg'
 import {
-  aboutFacts,
   competitive,
   contact,
+  earlierEducation,
   education,
   honors,
   ielts,
   leadership,
+  moreTeaching,
   navLinks,
+  outreach,
   projects,
   research,
   researchInterests,
   roles,
   skills,
   socials,
-  stats,
+  teaching,
 } from './data'
 
 const emptyForm = { name: '', email: '', message: '' }
@@ -30,21 +31,20 @@ function Icon({ path, size = 18 }) {
 }
 
 const icons = {
+  chevron: 'M5.3 8.3a1 1 0 0 1 1.4 0l5.3 5.300 5.300-5.300a1 1 0 1 1 1.400 1.400l-6 6a1 1 0 0 1-1.400 0l-6-6a1 1 0 0 1 0-1.400z',
   arrow: 'M13.2 5.3a1 1 0 0 1 1.4 0l6 6a1 1 0 0 1 0 1.4l-6 6a1 1 0 1 1-1.4-1.4l4.3-4.3H4a1 1 0 1 1 0-2h13.5l-4.3-4.3a1 1 0 0 1 0-1.4z',
   download:
     'M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.4l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 1 0 0 2h14a1 1 0 1 0 0-2H5z',
   external:
     'M14 4a1 1 0 1 0 0 2h2.6l-6.3 6.3a1 1 0 1 0 1.4 1.4L18 7.4V10a1 1 0 1 0 2 0V5a1 1 0 0 0-1-1h-5zM6 7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4a1 1 0 1 0-2 0v4H6V9h4a1 1 0 1 0 0-2H6z',
   mail: 'M4 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H4zm.4 2h15.2L12 12.7 4.400 7zM4 9.200l7.400 5.600a1 1 0 0 0 1.200 0L20 9.200V17H4V9.200z',
-  phone:
-    'M6.600 2.900a2 2 0 0 1 2.700.5l1.700 2.400a2 2 0 0 1-.2 2.500l-1.200 1.300c.9 1.700 2.300 3.100 4 4l1.300-1.200a2 2 0 0 1 2.500-.2l2.400 1.700a2 2 0 0 1 .5 2.700l-1 1.600a3 3 0 0 1-3.200 1.300C9.900 19.900 4.100 14.100 2.500 7.900a3 3 0 0 1 1.300-3.200l2.800-1.800z',
   pin: 'M12 2a7 7 0 0 0-7 7c0 4.700 5.500 11.500 6.200 12.300a1 1 0 0 0 1.600 0C13.500 20.500 19 13.700 19 9a7 7 0 0 0-7-7zm0 9.500a2.500 2.500 0 1 1 0-5 2.500 2.500 0 0 1 0 5z',
 }
 
 function SectionHead({ eyebrow, title, text }) {
   return (
     <header className="section-head reveal">
-      <span className="eyebrow">{eyebrow}</span>
+      {eyebrow && <span className="eyebrow">{eyebrow}</span>}
       <h2>{title}</h2>
       {text && <p>{text}</p>}
     </header>
@@ -58,6 +58,88 @@ function Tags({ items }) {
         <li key={item}>{item}</li>
       ))}
     </ul>
+  )
+}
+
+// Social tiles; an entry with `copy` copies that text to the clipboard instead of linking.
+function SocialLinks() {
+  const [copied, setCopied] = useState(false)
+
+  const copy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      window.location.href = `mailto:${text}`
+    }
+  }
+
+  return (
+    <ul className="socials">
+      {socials.map((social) => (
+        <li key={social.label}>
+          {social.copy ? (
+            <button
+              type="button"
+              onClick={() => copy(social.copy)}
+              aria-label={`Copy email address ${social.copy}`}
+              title={`Copy ${social.copy}`}
+            >
+              <Icon path={social.icon} />
+              <span className="socials__note" role="status">
+                {copied && 'Copied'}
+              </span>
+            </button>
+          ) : (
+            <a
+              href={social.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={social.label}
+              title={social.label}
+            >
+              <Icon path={social.icon} />
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+// Facebook video that only loads, and so only starts playing, once it scrolls into view.
+function FacebookVideo({ href, title }) {
+  const frame = useRef(null)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.4 },
+    )
+    observer.observe(frame.current)
+    return () => observer.disconnect()
+  }, [])
+
+  const src = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(href)}&show_text=false&autoplay=true&mute=true`
+
+  return (
+    <div className="video" ref={frame}>
+      {inView && (
+        <iframe
+          src={src}
+          title={title}
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      )}
+    </div>
   )
 }
 
@@ -139,7 +221,14 @@ export default function App() {
       const response = await fetch(`https://formsubmit.co/ajax/${contact.email}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...form, _subject: `Portfolio message from ${form.name}` }),
+        body: JSON.stringify({
+          Name: form.name,
+          Email: form.email,
+          Message: form.message,
+          _subject: `Portfolio message from ${form.name} <${form.email}>`,
+          _replyto: form.email,
+          _template: 'box',
+        }),
       })
       if (!response.ok) throw new Error('Request failed')
       setForm(emptyForm)
@@ -168,7 +257,7 @@ export default function App() {
               </a>
             ))}
             <a className="btn btn--primary nav__cv" href="#contact" onClick={() => setMenuOpen(false)}>
-              Hire Me
+              Contact Me
             </a>
           </nav>
           <button
@@ -188,7 +277,6 @@ export default function App() {
         <section id="home" className="hero">
           <div className="container hero__inner">
             <div className="hero__text">
-              <span className="eyebrow">Welcome to my world</span>
               <h1>
                 Hi, I&apos;m <span className="accent">Abu Adnan Shad</span>
               </h1>
@@ -205,21 +293,13 @@ export default function App() {
                 build Android and Flutter apps. I am looking for a funded MS or PhD position
                 starting in Fall 2027.
               </p>
-              <div className="overview">
-                <h2 className="label">Overview</h2>
-                <dl className="facts">
-                  {aboutFacts.map((fact) => (
-                    <div key={fact.label}>
-                      <dt>{fact.label}</dt>
-                      <dd>{fact.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-                <h3>Research interests</h3>
-                <Tags items={researchInterests} />
-                <a className="btn btn--primary overview__cv" href={contact.resume} download>
-                  <Icon path={icons.download} size={16} /> Download CV
-                </a>
+              <div className="hero__more">
+                <div className="hero__links">
+                  <a className="btn btn--primary" href={contact.resume} download>
+                    <Icon path={icons.download} size={16} /> Download CV
+                  </a>
+                  <SocialLinks />
+                </div>
               </div>
             </div>
 
@@ -248,48 +328,65 @@ export default function App() {
                   </p>
                 </article>
               ))}
+              <p className="ielts reveal">
+                <b>IELTS Academic</b> ({ielts.date}):{' '}
+                {ielts.scores.map((score) => `${score.label} ${score.value}`).join(' · ')}
+              </p>
             </div>
+            <details className="more reveal">
+              <summary>
+                Earlier education <Icon path={icons.chevron} size={16} />
+              </summary>
+              <ul className="card more__list">
+                {earlierEducation.map((item) => (
+                  <li key={item.title}>
+                    <time>{item.period}</time>
+                    <div>
+                      <b>{item.title}</b>
+                      {item.school && <span>{item.school}</span>}
+                    </div>
+                    <p>
+                      <strong>{item.score}</strong>
+                      <span>{item.note}</span>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </div>
         </section>
 
         <section id="research" className="section">
           <div className="container">
-            <SectionHead eyebrow="Research experience" title="Undergraduate thesis" />
+            <SectionHead title="Research Experience" />
+            <div className="interests reveal">
+              <h3>Research interests</h3>
+              <Tags items={researchInterests} />
+            </div>
             <article className="card research reveal">
-              <div className="research__body">
-                <span className="badge">{research.kind}</span>
-                <h3>
-                  <a href={research.href} target="_blank" rel="noreferrer">
-                    {research.title} <Icon path={icons.external} size={16} />
-                  </a>
-                </h3>
-                <Tags items={research.tags} />
-                <dl className="points">
-                  {research.points.map((point) => (
-                    <div key={point.label}>
-                      <dt>{point.label}</dt>
-                      <dd>{point.text}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-              <div className="research__side">
-                <img
-                  src={researchPhoto}
-                  alt="Abu Adnan Shad holding a bound project report at Leading University"
-                  width="960"
-                  height="1200"
-                  loading="lazy"
-                />
-                <ul className="metrics">
-                  {research.metrics.map((metric) => (
-                    <li key={metric.label}>
-                      <strong>{metric.value}</strong>
-                      <span>{metric.label}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <span className="badge">{research.kind}</span>
+              <h3>
+                <a href={research.href} target="_blank" rel="noreferrer">
+                  {research.title} <Icon path={icons.external} size={16} />
+                </a>
+              </h3>
+              <Tags items={research.tags} />
+              <ul className="metrics">
+                {research.metrics.map((metric) => (
+                  <li key={metric.label}>
+                    <strong>{metric.value}</strong>
+                    <span>{metric.label}</span>
+                  </li>
+                ))}
+              </ul>
+              <dl className="points">
+                {research.points.map((point) => (
+                  <div key={point.label}>
+                    <dt>{point.label}</dt>
+                    <dd>{point.text}</dd>
+                  </div>
+                ))}
+              </dl>
             </article>
           </div>
         </section>
@@ -302,15 +399,38 @@ export default function App() {
               text="The languages, methods, and platforms I work with."
             />
             <div className="grid grid--skills">
-              {skills.map((group) => (
+              {skills.map((area) => (
                 <article
-                  key={group.title}
-                  className={`card reveal${group.wide ? ' card--wide' : ''}`}
+                  key={area.title}
+                  className={`card skills reveal${area.wide ? ' skills--wide' : ''}`}
                 >
-                  <h3>{group.title}</h3>
-                  <Tags items={group.items} />
+                  <h3>
+                    {area.title}
+                    {area.learning && <span className="badge">In progress</span>}
+                  </h3>
+                  <dl>
+                    {area.groups.map((group) => (
+                      <div key={group.label}>
+                        <dt>{group.label}</dt>
+                        <dd>
+                          <Tags items={group.items} />
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
                 </article>
               ))}
+              <article className="card skills skills--wide skills--cp reveal">
+                <h3>Competitive Programming</h3>
+                <ul className="cp">
+                  {competitive.map((item) => (
+                    <li key={item.value}>
+                      <strong>{item.value}</strong>
+                      <span>{item.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             </div>
           </div>
         </section>
@@ -325,12 +445,11 @@ export default function App() {
             <div className="grid grid--projects">
               {projects.map((project, index) => (
                 <article key={project.title} className="card project reveal">
-                  <div className="project__thumb" aria-hidden="true">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <b>{project.title}</b>
-                  </div>
                   <div className="project__top">
-                    <span className="project__kind">{project.tags[0]}</span>
+                    <span className="project__num" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <h3>{project.title}</h3>
                     {project.href && (
                       <a
                         className="project__link"
@@ -343,7 +462,6 @@ export default function App() {
                       </a>
                     )}
                   </div>
-                  <h3>{project.title}</h3>
                   <Tags items={project.tags} />
                   <p>
                     <b>Problem:</b> {project.problem}
@@ -357,76 +475,116 @@ export default function App() {
           </div>
         </section>
 
-        <section id="experience" className="section">
+        <section id="teaching" className="section">
           <div className="container">
-            <SectionHead
-              eyebrow="Beyond the classroom"
-              title="Experience & achievements"
-            />
-            <div className="experience">
-              <div className="reveal">
-                <h3 className="sub">Teaching, outreach & leadership</h3>
+            <SectionHead title="Teaching & Leadership" />
+            <article className="card outreach reveal">
+              <div>
+                <span className="eyebrow">Outreach</span>
+                <h3>{outreach.role}</h3>
+                <p className="timeline__org">
+                  <a href={outreach.href} target="_blank" rel="noreferrer">
+                    {outreach.org}
+                  </a>
+                </p>
+                <p className="outreach__text">{outreach.text}</p>
+                <a
+                  className="btn btn--primary"
+                  href={outreach.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Visit the page <Icon path={icons.external} size={16} />
+                </a>
+              </div>
+              <FacebookVideo href={outreach.video} title={`${outreach.org} video`} />
+            </article>
+            <div className="grid grid--experience">
+              <article className="card reveal">
+                <h3>Teaching</h3>
+                <ol className="timeline">
+                  {teaching.map((item) => (
+                    <li key={item.role}>
+                      {item.period && <time>{item.period}</time>}
+                      <h4>{item.role}</h4>
+                      {item.org && (
+                        <p className="timeline__org">
+                          {item.href ? (
+                            <a href={item.href} target="_blank" rel="noreferrer">
+                              {item.org}
+                            </a>
+                          ) : (
+                            item.org
+                          )}
+                        </p>
+                      )}
+                      <p>{item.text}</p>
+                    </li>
+                  ))}
+                </ol>
+                <details className="more more--left">
+                  <summary>
+                    More teaching <Icon path={icons.chevron} size={16} />
+                  </summary>
+                  <ol className="timeline">
+                    {moreTeaching.map((item) => (
+                      <li key={item.role}>
+                        {item.period && <time>{item.period}</time>}
+                        <h4>{item.role}</h4>
+                        {item.org && (
+                          <p className="timeline__org">
+                            {item.href ? (
+                              <a href={item.href} target="_blank" rel="noreferrer">
+                                {item.org}
+                              </a>
+                            ) : (
+                              item.org
+                            )}
+                          </p>
+                        )}
+                        <p>{item.text}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+              </article>
+
+              <article className="card reveal">
+                <h3>Leadership</h3>
                 <ol className="timeline">
                   {leadership.map((item) => (
                     <li key={item.role}>
                       {item.period && <time>{item.period}</time>}
                       <h4>{item.role}</h4>
-                      <p className="timeline__org">
-                        {item.href ? (
-                          <a href={item.href} target="_blank" rel="noreferrer">
-                            {item.org}
-                          </a>
-                        ) : (
-                          item.org
-                        )}
-                      </p>
+                      {item.org && (
+                        <p className="timeline__org">
+                          {item.href ? (
+                            <a href={item.href} target="_blank" rel="noreferrer">
+                              {item.org}
+                            </a>
+                          ) : (
+                            item.org
+                          )}
+                        </p>
+                      )}
                       <p>{item.text}</p>
                     </li>
                   ))}
                 </ol>
-              </div>
+              </article>
 
-              <div className="experience__side">
-                <article className="card reveal">
-                  <h3>Competitive programming</h3>
-                  <ul className="cp">
-                    {competitive.map((item) => (
-                      <li key={item.value}>
-                        <strong>{item.value}</strong>
-                        <span>{item.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-
-                <article className="card reveal">
-                  <h3>Honors & affiliations</h3>
-                  <ul className="honors">
-                    {honors.map((honor) => (
-                      <li key={honor.org}>
-                        <div>
-                          <b>{honor.title}</b>
-                          <span>{honor.org}</span>
-                        </div>
-                        <time>{honor.period}</time>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-
-                <article className="card reveal">
-                  <h3>IELTS Academic</h3>
-                  <p className="muted">{ielts.date}</p>
-                  <ul className="ielts">
-                    {ielts.scores.map((score) => (
-                      <li key={score.label}>
-                        <strong>{score.value}</strong>
-                        <span>{score.label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              </div>
+              <article className="card reveal">
+                <h3>Affiliations & awards</h3>
+                <ul className="honors">
+                  {honors.map((honor) => (
+                    <li key={honor.org}>
+                      <time>{honor.period}</time>
+                      <b>{honor.title}</b>
+                      <span>{honor.org}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             </div>
           </div>
         </section>
@@ -496,15 +654,6 @@ export default function App() {
                 </li>
                 <li>
                   <span className="contact__icon">
-                    <Icon path={icons.phone} size={20} />
-                  </span>
-                  <div>
-                    <span>Phone</span>
-                    <a href={contact.phoneHref}>{contact.phone}</a>
-                  </div>
-                </li>
-                <li>
-                  <span className="contact__icon">
                     <Icon path={icons.pin} size={20} />
                   </span>
                   <div>
@@ -517,18 +666,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section" aria-label="Highlights">
-          <div className="container">
-            <ul className="stats reveal">
-              {stats.map((stat) => (
-                <li key={stat.label}>
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
       </main>
 
       <footer className="footer">
@@ -537,15 +674,7 @@ export default function App() {
             Adnan<span>Shad</span>
           </a>
           <p>© {new Date().getFullYear()} Abu Adnan Shad. All rights reserved.</p>
-          <ul className="socials">
-            {socials.map((social) => (
-              <li key={social.label}>
-                <a href={social.href} target="_blank" rel="noreferrer" aria-label={social.label}>
-                  <Icon path={social.icon} />
-                </a>
-              </li>
-            ))}
-          </ul>
+          <SocialLinks />
         </div>
       </footer>
     </>
