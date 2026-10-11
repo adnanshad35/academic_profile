@@ -99,7 +99,7 @@ export const skills = [
       { label: 'Languages', items: ['Python', 'C', 'C++', 'Java', 'Dart'] },
       {
         label: 'App development',
-        items: ['Flutter (Dart)', 'Android (Java)', 'Firebase', 'HTML', 'CSS'],
+        items: ['Flutter', 'Android', 'Firebase', 'HTML', 'CSS'],
       },
       {
         label: 'Tools & platforms',

@@ -19,6 +19,7 @@ import {
   socials,
   teaching,
 } from './data'
+import { isDarkBrand, skillIcons, skillMonograms } from './skillIcons'
 
 const emptyForm = { name: '', email: '', message: '' }
 
@@ -83,6 +84,28 @@ function Tags({ items }) {
       {items.map((item) => (
         <li key={item}>{item}</li>
       ))}
+    </ul>
+  )
+}
+
+// Skill tiles: a logo (or lettered fallback) above each skill name.
+function SkillTiles({ items }) {
+  return (
+    <ul className="tiles">
+      {items.map((item) => {
+        const icon = skillIcons[item]
+        const brand = icon && !isDarkBrand(icon.hex) ? `#${icon.hex}` : undefined
+        return (
+          <li key={item} style={{ '--brand': brand }}>
+            {icon ? (
+              <Icon path={icon.path} size={28} />
+            ) : (
+              <b aria-hidden="true">{skillMonograms[item] || item.slice(0, 2)}</b>
+            )}
+            <span>{item}</span>
+          </li>
+        )
+      })}
     </ul>
   )
 }
@@ -438,7 +461,7 @@ export default function App() {
                       <div key={group.label}>
                         <dt>{group.label}</dt>
                         <dd>
-                          <Tags items={group.items} />
+                          <SkillTiles items={group.items} />
                         </dd>
                       </div>
                     ))}
