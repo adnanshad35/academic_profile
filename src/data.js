@@ -37,7 +37,7 @@ export const socials = [
   },
 ]
 
-export const roles = ['AI/ML Researcher', 'Software Developer']
+export const role = 'AI/ML Enthusiast'
 
 export const researchInterests = [
   'Machine Learning for Healthcare',
